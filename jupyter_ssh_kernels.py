@@ -25,7 +25,7 @@ class SSHKernelManager(KernelManager2ABC):
         self.ssh_client = client = SSHClient()
         client.load_system_host_keys()
         client.connect(server)
-        stdin, stdout, stderr = client.exec_command('python')
+        stdin, stdout, stderr = client.exec_command('python3')
         self.kernel_proc_channel = stdin.channel
         stdin.write(remote_code)
         stdin.close()
