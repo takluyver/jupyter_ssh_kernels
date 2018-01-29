@@ -29,7 +29,8 @@ class SSHKernelManager(KernelManager2ABC):
         self.kernel_proc_channel = stdin.channel
         stdin.write(remote_code)
         stdin.close()
-        
+        self.kernel_proc_channel.shutdown_write()  # Sends EOF
+
         for line in stdout:
             m = re.match(CONN_FILE_RE, line)
             if m:
