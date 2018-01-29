@@ -37,8 +37,14 @@ class SSHKernelManager(KernelManager2ABC):
                 remote_conn_file = m.group(1)
                 break
         else:
+            print('Exit status', self.kernel_proc_channel.exit_status)
+            print("Stderr:")
+            print(stderr.read().decode())
+            print("Stdout:")
+            print(stdout.read())
             raise RuntimeError("Remote kernel failed to start")
-        
+
+        print("Remote connection file:", remote_conn_file)
         with client.open_sftp() as sftp:
             with sftp.open(remote_conn_file) as f:
                 self.connection_info = json.load(f)
