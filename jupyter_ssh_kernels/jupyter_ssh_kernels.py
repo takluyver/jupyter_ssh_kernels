@@ -1,8 +1,8 @@
 import json
-from jupyter_client.client2 import BlockingKernelClient2
 from jupyter_client.discovery import KernelProviderBase
-from jupyter_client.manager2 import KernelManager2ABC, shutdown
+from jupyter_client.manager2 import KernelManager2ABC
 from paramiko import SSHClient
+from pathlib import Path
 import re
 
 KERNELS = {
@@ -15,7 +15,8 @@ KERNELS = {
 }
 
 def remote_launch_py(kinfo):
-    with open('remote_launch.py') as f:
+    rl_path = Path(__file__).parent / 'remote_launch.py'
+    with rl_path.open() as f:
         return f.read().format(**kinfo)
 
 CONN_FILE_RE = r"!!!Started, connection_file: (.*) !!!"
@@ -85,22 +86,3 @@ class SSHKernelProvider(KernelProviderBase):
         kinfo = KERNELS[name]
         return SSHKernelManager(kinfo['address'],
                                 remote_launch_py(kinfo))
-
-# Try starting a remote kernel and connecting to it.
-if __name__ == '__main__':
-    km = SSHKernelProvider().launch('mydesktop')
-    print("Started remote kernel")
-    print()
-    print(km.get_connection_info())
-    print()
-    
-    kc = BlockingKernelClient2(km.get_connection_info(), km)
-    print("Getting kernel info...")
-    print(kc.kernel_info(reply=True)['content'])
-    print()
-    
-    import time
-    time.sleep(5)
-    print("Shutting down...")
-    shutdown(kc, km)
-    print("Shutdown complete")
