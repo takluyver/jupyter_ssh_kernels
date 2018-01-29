@@ -86,18 +86,21 @@ class SSHKernelProvider(KernelProviderBase):
         return SSHKernelManager(kinfo['address'],
                                 remote_launch_py(kinfo))
 
+# Try starting a remote kernel and connecting to it.
 if __name__ == '__main__':
     km = SSHKernelProvider().launch('mydesktop')
     print("Started remote kernel")
     print()
     print(km.get_connection_info())
+    print()
+    
+    kc = BlockingKernelClient2(km.get_connection_info(), km)
+    print("Getting kernel info...")
+    print(kc.kernel_info(reply=True)['content'])
+    print()
     
     import time
-    try:
-        while True:
-            time.sleep(1000)
-    except KeyboardInterrupt:
-        print("Attempting shutdown")
-        kc = BlockingKernelClient2(km.get_connection_info(), km)
-        shutdown(kc, km)
-        print("Shutdown complete")
+    time.sleep(5)
+    print("Shutting down...")
+    shutdown(kc, km)
+    print("Shutdown complete")
