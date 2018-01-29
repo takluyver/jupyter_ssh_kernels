@@ -16,7 +16,7 @@ KERNELS = {
 
 def remote_launch_py(kinfo):
     with open('remote_launch.py') as f:
-        return f.read().format(kinfo)
+        return f.read().format(**kinfo)
 
 CONN_FILE_RE = r"!!!Started, connection_file: (.*) !!!"
 
@@ -50,6 +50,12 @@ class SSHKernelManager(KernelManager2ABC):
         return not self.kernel_proc_channel.status_event.wait(timeout)
     
     def interrupt(self):
+        pass
+    
+    def kill(self):
+        pass
+    
+    def signal(self):
         pass
     
     def cleanup(self):
