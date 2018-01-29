@@ -1,5 +1,5 @@
 import json
-from jupyter_client.client2 import BlockingKernelClient
+from jupyter_client.client2 import BlockingKernelClient2
 from jupyter_client.discovery import KernelProviderBase
 from jupyter_client.manager2 import KernelManager2ABC, shutdown
 from paramiko import SSHClient
@@ -85,5 +85,6 @@ if __name__ == '__main__':
             time.sleep(1000)
     except KeyboardInterrupt:
         print("Attempting shutdown")
-        kc = BlockingKernelClient(km.get_connection_info(), km)
+        kc = BlockingKernelClient2(km.get_connection_info(), km)
         shutdown(kc, km)
+        print("Shutdown complete")
