@@ -52,7 +52,7 @@ class SSHKernelManager(KernelManager2ABC):
     
     
     def is_alive(self):
-        return True
+        return not self.kernel_proc_channel.exit_status_ready()
 
     def wait(self, timeout):
         return not self.kernel_proc_channel.status_event.wait(timeout)
@@ -63,7 +63,7 @@ class SSHKernelManager(KernelManager2ABC):
     def kill(self):
         pass
     
-    def signal(self):
+    def signal(self, signum):
         pass
     
     def cleanup(self):
