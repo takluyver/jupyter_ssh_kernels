@@ -1,22 +1,35 @@
 from jupyter_client.discovery import KernelProviderBase
-from .manager import SSHKernelManager, remote_launch_py
+from jupyter_core.paths import jupyter_config_path
+from pathlib import Path
+import pytoml
 
-KERNELS = {
-    'mydesktop': {
-        'address': '10.15.41.11',
-        'argv': ['python3', '-m', 'ipykernel_launcher', '-f', '{connection_file}'],
-        'cwd': '/home/takluyver/scratch',
-        'language': 'python',
-    }
-}
+from .manager import SSHKernelManager, remote_launch_py
 
 class SSHKernelProvider(KernelProviderBase):
     id = "simple-ssh"
 
     def find_kernels(self):
-        return KERNELS.items()
+        names_seen = set()
+        for cfg_dir in jupyter_config_path():
+            cfg_file = Path(cfg_dir, 'ssh_kernels.toml')
+            if not cfg_file.is_file():
+                continue
+
+            with cfg_file.open('r', encoding='utf-8') as f:
+                config = pytoml.load(f)
+
+            for name, kinfo in config['kernels'].items():
+                # Files earlier in the search path shadow kernels from later ones
+                if name in names_seen:
+                    continue
+                names_seen.add(name)
+
+                yield (name, kinfo)
 
     def launch(self, name, cwd=None):
-        kinfo = KERNELS[name]
-        return SSHKernelManager(kinfo['address'],
-                                remote_launch_py(kinfo))
+        for candidate_name, kinfo in self.find_kernels():
+            if candidate_name == name:
+                return SSHKernelManager(kinfo['address'],
+                                        remote_launch_py(kinfo))
+
+        raise KeyError(name)
