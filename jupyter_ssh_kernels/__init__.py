@@ -1,1 +1,1 @@
-from .jupyter_ssh_kernels import SSHKernelProvider
+from .provider import SSHKernelProvider

@@ -1,6 +1,6 @@
 from jupyter_client.client2 import BlockingKernelClient2
 from jupyter_client.manager2 import shutdown
-from .jupyter_ssh_kernels import SSHKernelProvider
+from .provider import SSHKernelProvider
 
 # Try starting a remote kernel and connecting to it.
 km = SSHKernelProvider().launch('mydesktop')
