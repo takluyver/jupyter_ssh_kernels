@@ -1,0 +1,14 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "jupyter_ssh_kernels"
+author = "Thomas Kluyver"
+author-email = "thomas@kluyver.me.uk"
+home-page = "https://github.com/takluyver/jupyter_ssh_kernels"
+description-file = "README.rst"
+classifiers = ["License :: OSI Approved :: MIT License"]
+
+[entrypoints."jupyter_client.kernel_providers"]
+simple-ssh = "jupyter_ssh_kernels:SSHKernelProvider"
