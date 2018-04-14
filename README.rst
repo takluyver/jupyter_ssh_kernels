@@ -1,4 +1,4 @@
-This is experimental, to work with a branch not yet merged in jupyter_client.
+This is experimental, to work with jupyter_kernel_mgmt.
 
 Ensure that you can SSH to the target machine with no password.
 Create a file ``~/.jupyter/ssh_kernels.toml`` with contents like this:

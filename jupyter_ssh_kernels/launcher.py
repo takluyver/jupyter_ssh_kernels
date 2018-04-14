@@ -1,5 +1,4 @@
 import json
-from jupyter_client.manager2 import KernelManager2ABC
 from paramiko import SSHClient
 from pathlib import Path
 import re

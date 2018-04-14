@@ -3,7 +3,7 @@ from jupyter_core.paths import jupyter_config_path
 from pathlib import Path
 import pytoml
 
-from .manager import launch, remote_launch_py
+from .launcher import launch, remote_launch_py
 
 class SSHKernelProvider(KernelProviderBase):
     id = "simple-ssh"
