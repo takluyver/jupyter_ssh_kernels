@@ -3,7 +3,7 @@ from jupyter_core.paths import jupyter_config_path
 from pathlib import Path
 import pytoml
 
-from .manager import SSHKernelManager, remote_launch_py
+from .manager import launch, remote_launch_py
 
 class SSHKernelProvider(KernelProviderBase):
     id = "simple-ssh"
@@ -29,7 +29,7 @@ class SSHKernelProvider(KernelProviderBase):
     def launch(self, name, cwd=None):
         for candidate_name, kinfo in self.find_kernels():
             if candidate_name == name:
-                return SSHKernelManager(kinfo['address'],
-                                        remote_launch_py(kinfo))
+                conn_info = launch(kinfo['address'], remote_launch_py(kinfo))
+                return (conn_info, None)
 
         raise KeyError(name)

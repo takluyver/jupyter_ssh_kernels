@@ -1,15 +1,14 @@
 from jupyter_client.client2 import BlockingKernelClient2
-from jupyter_client.manager2 import shutdown
 from .provider import SSHKernelProvider
 
 # Try starting a remote kernel and connecting to it.
-km = SSHKernelProvider().launch('mydesktop')
+conn_info, km = SSHKernelProvider().launch('mydesktop')
 print("Started remote kernel")
 print()
-print(km.get_connection_info())
+print(conn_info)
 print()
 
-kc = BlockingKernelClient2(km.get_connection_info(), km)
+kc = BlockingKernelClient2(conn_info, km)
 print("Getting kernel info...")
 print(kc.kernel_info(reply=True)['content'])
 print()
@@ -17,5 +16,5 @@ print()
 import time
 time.sleep(5)
 print("Shutting down...")
-shutdown(kc, km)
+kc.shutdown_or_terminate()
 print("Shutdown complete")

@@ -10,5 +10,5 @@ home-page = "https://github.com/takluyver/jupyter_ssh_kernels"
 description-file = "README.rst"
 classifiers = ["License :: OSI Approved :: MIT License"]
 
-[tool.flit.entrypoints."jupyter_client.kernel_providers"]
+[tool.flit.entrypoints."jupyter_kernel_mgmt.kernel_type_providers"]
 simple-ssh = "jupyter_ssh_kernels:SSHKernelProvider"
