@@ -1,4 +1,4 @@
-from jupyter_client.discovery import KernelProviderBase
+from jupyter_kernel_mgmt.discovery import KernelProviderBase
 from jupyter_core.paths import jupyter_config_path
 from pathlib import Path
 import pytoml
