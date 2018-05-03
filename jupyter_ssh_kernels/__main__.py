@@ -2,7 +2,7 @@ from jupyter_kernel_mgmt.client import BlockingKernelClient
 from .provider import SSHKernelProvider
 
 # Try starting a remote kernel and connecting to it.
-conn_info, km = SSHKernelProvider().launch('local')
+conn_info, km = SSHKernelProvider().launch('mydesktop')
 print("Started remote kernel")
 print()
 print(conn_info)
